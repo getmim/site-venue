@@ -96,7 +96,7 @@ class Venue
             $schema['@type'] = $page->meta->schema;
 
             $price = $page->prices;
-            $schema['priceRange'] = sprintf('%s %d - %s %d', $price->currency, $price->min, $price->currency, $price->max);
+            $schema['priceRange'] = sprintf('%s %d - %s %d', $price->currency->value, $price->min->value, $price->currency->value, $price->max->value);
 
             if($meta_image)
                 $schema['logo'] = $meta_image;
