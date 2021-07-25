@@ -13,6 +13,7 @@ class Robot
 {
     static private function getPages(): ?array{
         $cond = [
+            'status' => 2,
             'updated' => ['__op', '>', date('Y-m-d H:i:s', strtotime('-2 days'))]
         ];
         $pages = Venue::get($cond);

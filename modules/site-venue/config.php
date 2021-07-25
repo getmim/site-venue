@@ -58,6 +58,13 @@ return [
     ],
     'routes' => [
         'site' => [
+            'siteVenueIndex' => [
+                'path' => [
+                    'value' => '/venue'
+                ],
+                'method' => 'GET',
+                'handler' => 'SiteVenue\\Controller\\Venue::index'
+            ],
             'siteVenueSingle' => [
                 'path' => [
                     'value' => '/venue/read/(:slug)',

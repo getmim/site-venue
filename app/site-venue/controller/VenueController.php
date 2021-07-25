@@ -13,10 +13,39 @@ use LibFormatter\Library\Formatter;
 
 class VenueController extends \Site\Controller
 {
+    public function indexAction(){
+        list($page, $rpp) = $this->req->getPager();
+
+        $venues = Venue::get(['status' => 2], $rpp, $page, ['id'=>false]);
+        if($venues)
+            $venues = Formatter::formatMany('venue', $venues, ['user']);
+
+        $params = [
+            'pagination' => null,
+            'venues'     => $venues,
+            'meta'       => Meta::index($venues, $page)
+        ];
+
+        $total = Venue::count([]);
+        if($total > $rpp){
+            $params['pagination'] = new Paginator(
+                $this->router->to('siteVenueIndex'),
+                $total,
+                $page,
+                $rpp,
+                10
+            );
+        }
+
+        $this->res->render('venue/index', $params);
+        $this->res->setCache(86400);
+        $this->res->send();
+    }
+
     public function singleAction() {
         $slug = $this->req->param->slug;
 
-        $page = Venue::getOne(['slug'=>$slug]);
+        $page = Venue::getOne(['status' => 2, 'slug'=>$slug]);
         if(!$page)
             return $this->show404();
 
